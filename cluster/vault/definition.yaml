@@ -1,12 +1,12 @@
 apiVersion: apiextensions.crossplane.io/v1
 kind: CompositeResourceDefinition
 metadata:
-  name: services.gcp.platformref.crossplane.io
+  name: vaults.gcp.platformref.crossplane.io
 spec:
   group: gcp.platformref.crossplane.io
   names:
-    kind: Services
-    plural: services
+    kind: Vaults
+    plural: vaults
   versions:
   - name: v1alpha1
     served: true
@@ -24,14 +24,14 @@ spec:
                 properties:
                   prometheus:
                     type: object
-                    description: Configuration for the Prometheus operator.
+                    description: Configuration for the Vault.
                     properties:
                       version:
                         type: string
-                        description: Prometheus operator version to run.
+                        description: Vault version to run.
               providerConfigRef:
                 type: object
-                description: "A reference to the ProviderConfig of the cluster that services should
+                description: "A reference to the ProviderConfig of the cluster that Vault should
                 be deployed to."
                 properties:
                   name:

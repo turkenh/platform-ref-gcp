@@ -5,8 +5,8 @@ metadata:
 spec:
   credentials:
     secretRef:
-      key: key
+      key: key.json
       name: gcp-creds
       namespace: crossplane-system
     source: Secret
-  projectID: crossplane-playground
+  projectID: wesaas-playground

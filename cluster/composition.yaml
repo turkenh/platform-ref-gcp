@@ -36,9 +36,7 @@ spec:
           toFieldPath: spec.parameters.networkRef.id
     - base:
         apiVersion: gcp.platformref.crossplane.io/v1alpha1
-        kind: Services
+        kind: Vaults
       patches:
         - fromFieldPath: spec.id
           toFieldPath: spec.providerConfigRef.name
-        - fromFieldPath: spec.parameters.services.operators.prometheus.version
-          toFieldPath: spec.operators.prometheus.version
