@@ -42,3 +42,9 @@ spec:
           toFieldPath: spec.providerConfigRef.name
         - fromFieldPath: spec.parameters.services.operators.prometheus.version
           toFieldPath: spec.operators.prometheus.version
+    - base:
+        apiVersion: gcp.platformref.crossplane.io/v1alpha1
+        kind: Vaults
+      patches:
+        - fromFieldPath: spec.id
+          toFieldPath: spec.providerConfigRef.name
