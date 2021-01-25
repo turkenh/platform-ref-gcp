@@ -37,6 +37,9 @@ spec:
             addonsConfig:
               gcePersistentDiskCsiDriverConfig:
                 enabled: true
+            workloadIdentityConfig:
+              # TODO: Find a way to consume gcp project name from provider config
+              identityNamespace: wesaas-playground.svc.id.goog
       patches:
         - fromFieldPath: metadata.uid
           toFieldPath: spec.writeConnectionSecretToRef.name
@@ -81,6 +84,8 @@ spec:
                 disable-legacy-endpoints: "true"
               oauthScopes:
                 - https://www.googleapis.com/auth/cloud-platform
+              workloadMetadataConfig:
+                nodeMetadata: GKE_METADATA_SERVER
             management:
               autoRepair: true
               autoUpgrade: false
