@@ -145,6 +145,18 @@ spec:
                   enabled: false
                 ha:
                   enabled: true
+                extraContainers:
+                  - name: vault-init
+                    image: registry.hub.docker.com/sethvargo/vault-init:0.2.0
+                    imagePullPolicy: Always
+                    volumeMounts:
+                      - mountPath: /vault/userconfig/vault-server-tls
+                        name: userconfig-vault-server-tls
+                    env:
+                      - name: GCS_BUCKET_NAME
+                      - name: KMS_KEY_ID
+                      - name: VAULT_CACERT
+                        value: /vault/userconfig/vault-server-tls/ca.crt
       patches:
         # All Helm releases derive their labels and annotations from the XR.
         - fromFieldPath: metadata.labels
@@ -154,6 +166,14 @@ spec:
         # All Helm releases derive the ProviderConfig to use from the XR.
         - fromFieldPath: spec.providerConfigRef.name
           toFieldPath: spec.providerConfigRef.name
+        - fromFieldPath: metadata.name
+          toFieldPath: spec.forProvider.values.server.extraContainers[0].env[0].value
+        - fromFieldPath: metadata.name
+          toFieldPath: spec.forProvider.values.server.extraContainers[0].env[1].value
+          transforms:
+            - type: string
+              string:
+                fmt: "projects/wesaas-playground/locations/global/keyRings/vault-on-gke-keyring/cryptoKeys/%s"
         - fromFieldPath: metadata.name
           toFieldPath: spec.forProvider.values.server.serviceAccount.annotations["iam.gke.io/gcp-service-account"]
           transforms:
