@@ -16,6 +16,8 @@ spec:
       connectionDetails:
         - fromConnectionSecretKey: kubeconfig
       patches:
+        - fromFieldPath: metadata.name
+          toFieldPath: metadata.name
         - fromFieldPath: spec.id
           toFieldPath: spec.id
         - fromFieldPath: spec.id
@@ -38,5 +40,7 @@ spec:
         apiVersion: gcp.platformref.crossplane.io/v1alpha1
         kind: Vaults
       patches:
+        - fromFieldPath: metadata.name
+          toFieldPath: metadata.name
         - fromFieldPath: spec.id
           toFieldPath: spec.providerConfigRef.name

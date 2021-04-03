@@ -1,21 +1,17 @@
 apiVersion: gcp.platformref.crossplane.io/v1alpha1
 kind: Cluster
 metadata:
-  name: vault1-cluster
+  name: vault-on-gke-cluster-1
 spec:
   compositionSelector:
     matchLabels:
       provider: GCP
-  id: vault1-cluster
+  id: vault-on-gke-cluster-1
   parameters:
     nodes:
       count: 1
       size: small
-    # services:
-    #   operators:
-    #     prometheus:
-    #       version: "10.0.2"
     networkRef:
-      id: platform-ref-gcp-vault1-network
+      id: vault-on-gke-network-1
   writeConnectionSecretToRef:
     name: cluster-conn

@@ -1,11 +1,11 @@
 apiVersion: gcp.platformref.crossplane.io/v1alpha1
 kind: Network
 metadata:
-  name: platform-ref-gcp-vault1-network
+  name: vault-on-gke-network-1
 spec:
-  id: platform-ref-gcp-vault1-network
+  id: vault-on-gke-network-1
   clusterRef:
-    id: platform-ref-gcp-vault1-cluster
+    id: vault-on-gke-cluster-1
   compositionSelector:
     matchLabels:
       provider: GCP

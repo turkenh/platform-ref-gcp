@@ -18,6 +18,8 @@ spec:
             description: "sa used by vault to access bucket and cryptokey for auto unseal"
       patches:
         - fromFieldPath: metadata.name
+          toFieldPath: metadata.annotations[crossplane.io/external-name]
+        - fromFieldPath: metadata.name
           toFieldPath: spec.forProvider.displayName
           transforms:
             - type: string
@@ -26,6 +28,9 @@ spec:
     - base:
         apiVersion: kms.gcp.crossplane.io/v1alpha1
         kind: KeyRing
+        metadata:
+          annotations:
+            crossplane.io/external-name: vault-on-gke-keyring
         spec:
           forProvider:
             location: global
@@ -37,6 +42,9 @@ spec:
             purpose: ENCRYPT_DECRYPT
             keyRingSelector:
               matchControllerRef: true
+      patches:
+        - fromFieldPath: metadata.name
+          toFieldPath: "metadata.annotations[crossplane.io/external-name]"
     - base:
         apiVersion: kms.gcp.crossplane.io/v1alpha1
         kind: CryptoKeyPolicy
@@ -70,10 +78,6 @@ spec:
       patches:
         - fromFieldPath: metadata.name
           toFieldPath: "metadata.annotations[crossplane.io/external-name]"
-          transforms:
-            - type: string
-              string:
-                fmt: "crossplane-vault-%s"
     - base:
         apiVersion: storage.gcp.crossplane.io/v1alpha1
         kind: BucketPolicyMember
@@ -174,13 +178,13 @@ spec:
                   tls_client_ca_file = "/vault/userconfig/vault-server-tls/ca.crt"
                   }
                   storage "gcs" {
-                  bucket     = "crossplane-vault-%s"
+                  bucket     = "%s"
                   ha_enabled = "true"
                   }
                   seal "gcpckms" {
                   project     = "wesaas-playground"
                   region      = "global"
-                  key_ring    = "hostclusters-vault-keyring"
+                  key_ring    = "vault-on-gke-keyring"
                   crypto_key  = "%s"
                   }
 
