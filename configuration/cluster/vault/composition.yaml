@@ -116,6 +116,29 @@ spec:
         apiVersion: helm.crossplane.io/v1beta1
         kind: Release
         metadata:
+          name: vault-tls
+          annotations:
+            crossplane.io/external-name: vault-tls
+        spec:
+          rollbackLimit: 3
+          forProvider:
+            namespace: vault-system
+            chart:
+              url: https://storage.googleapis.com/helm-repo-dev/vault-base-0.1.0.tgz
+            values: {}
+      patches:
+        # All Helm releases derive their labels and annotations from the XR.
+        - fromFieldPath: metadata.labels
+          toFieldPath: metadata.labels
+        - fromFieldPath: metadata.annotations
+          toFieldPath: metadata.annotations
+        # All Helm releases derive the ProviderConfig to use from the XR.
+        - fromFieldPath: spec.providerConfigRef.name
+          toFieldPath: spec.providerConfigRef.name
+    - base:
+        apiVersion: helm.crossplane.io/v1beta1
+        kind: Release
+        metadata:
           name: vault-cluster
           annotations:
             crossplane.io/external-name: vault-cluster
